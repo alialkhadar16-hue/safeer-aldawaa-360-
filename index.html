@@ -31,7 +31,7 @@ function deleteRep(i){if(role()!=='مدير'||users[i]?.role!=='مندوب تج�
 function addRep(){if(role()!=='مدير')return;const name=val('newRepName').trim(),phone=val('newRepPhone').trim();if(!name||!/^\d{8,15}$/.test(phone))return alert('أدخل اسماً ورقم هاتف من 8 إلى 15 رقماً');if(accounts.some(a=>a.phone===phone)||users.some(u=>u.name===name))return alert('الاسم أو الرقم مسجل مسبقاً');users.push({name,role:'مندوب تجاري'});accounts.push({phone,pin:'123456',active:true,mustChange:true});saveAccounts();admin();renderAccountManagement();alert('أُضيف حساب تجريبي برمز مؤقت 123456؛ يجب تغييره عند الدخول')}
 function resolveReset(i){if(!isAdmin())return;const idx=accounts.findIndex(a=>a.phone===resetRequests[i].phone);if(idx<0)return alert('لا يوجد حساب بهذا الرقم');resetPin(idx);resetRequests.splice(i,1);saveAccounts();admin();renderAccountManagement()}
 function approve(i){const p=db.pendingSuppliers.splice(i,1)[0];if(!db.suppliers.some(s=>s.toLowerCase()===p.name.toLowerCase()))db.suppliers.push(p.name);save();admin()}function reject(i){db.pendingSuppliers.splice(i,1);save();admin()}
-render();
+// Initialize authentication before attempting to render any protected view.
 
 // V3 local-only authentication demonstration. NOT secure: browser storage is user-editable.
 const ACC_KEY='safeer360v3_accounts',REQ_KEY='safeer360v3_resets';
